@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "John",
+    "Last name": "Doe",
+    "Address": "120 jefferson st.",
+    "City": "Riverside",
+    "Ext": "NJ",
+    "CP": "8075"
+  },
+  {
+    "Name": "Philip",
+    "Last name": "Miller",
+    "Address": "170 jefferson st.",
+    "City": "Riverside",
+    "Ext": "NJ",
+    "CP": "9065"
+  },
+  {
+    "Name": "Pablo",
+    "Last name": "Perez",
+    "Address": "444 pedernal",
+    "City": "Gomez",
+    "Ext": "NJ",
+    "CP": "35020"
+  }
+]

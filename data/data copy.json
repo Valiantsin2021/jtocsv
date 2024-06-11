@@ -1,0 +1,13 @@
+{
+  "Name": "Philip",
+  "Last name": "Miller",
+  "Address": "170 jefferson st.",
+  "position": {
+    "lat": 37.7749,
+    "lng": -122.4194
+  },
+  "hobbies": ["running", "sky diving", "singing"],
+  "City": "Riverside",
+  "Ext": "NJ",
+  "CP": "9065"
+}

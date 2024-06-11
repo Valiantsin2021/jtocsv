@@ -1,0 +1,13 @@
+{
+  "Name": "Pablo",
+  "Last name": "Perez",
+  "Address": "444 pedernal",
+  "position": {
+    "lat": 37.7749,
+    "lng": -122.4194
+  },
+  "hobbies": ["running", "sky diving", "singing"],
+  "City": "Gomez",
+  "Ext": "NJ",
+  "CP": "35020"
+}

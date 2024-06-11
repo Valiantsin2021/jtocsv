@@ -1,0 +1,54 @@
+{
+  "name": "jtocsv",
+  "version": "1.0.0",
+  "description": "A small library that will read all the JSON files from the folder, flatten them, and convert them to CSV file",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node index.js ./data ./output.csv",
+    "lint": "npx eslint ./*.js --fix",
+    "format": "prettier --write ./*.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.+(cjs|js|ts|tsx)": [
+      "eslint --fix"
+    ],
+    "**/*.+(cjs|js|ts|json)": [
+      "prettier --write"
+    ]
+  },
+  "bin": {
+    "jtocsv": "./index.js"
+  },
+  "keywords": [
+    "JSON",
+    "CSV",
+    "flatten",
+    "object",
+    "nested",
+    "convert",
+    "parse"
+  ],
+  "author": "Valentin Lutchanka",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "fast-csv": "^5.0.1",
+    "flat": "^6.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Valiantsin2021/jtocsv"
+  },
+  "devDependencies": {
+    "eslint": "8.56.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-prettier": "5.1.3",
+    "husky": "^4.3.8",
+    "prettier": "3.2.5"
+  }
+}
