@@ -1,8 +1,0 @@
-Name,Last name,Address,position.lat,position.lng,hobbies.0,hobbies.1,hobbies.2,City,Ext,CP
-Pablo,Perez,444 pedernal,37.7749,-122.4194,running,sky diving,singing,Gomez,NJ,35020
-Philip,Miller,170 jefferson st.,37.7749,-122.4194,running,sky diving,singing,Riverside,NJ,9065
-John,Doe,120 jefferson st.,37.7749,-122.4194,running,sky diving,singing,Riverside,NJ,8075
-Jane,Doe,120 jefferson st.,37.7749,-122.4194,running,sky diving,singing,Riverside,NJ,8075
-John,Doe,120 jefferson st.,,,,,,Riverside,NJ,8075
-Philip,Miller,170 jefferson st.,,,,,,Riverside,NJ,9065
-Pablo,Perez,444 pedernal,,,,,,Gomez,NJ,35020
