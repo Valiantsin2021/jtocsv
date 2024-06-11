@@ -1,4 +1,4 @@
-# Newman Parallel
+# Jtocsv (JSON to CSV parser)
 
 [![CI](https://github.com/Valiantsin2021/jtocsv/actions/workflows/ci.yml/badge.svg)](https://github.com/Valiantsin2021/jtocsv/actions/workflows/ci.yml)
 

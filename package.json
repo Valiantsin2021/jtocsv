@@ -1,6 +1,6 @@
 {
   "name": "jtocsv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A small library that will read all the JSON files from the folder, flatten them, and convert them to CSV file",
   "main": "index.js",
   "type": "module",

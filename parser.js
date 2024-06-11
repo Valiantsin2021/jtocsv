@@ -15,6 +15,7 @@ const formatCsvData = async (data, filePath) => {
         reject(error)
       })
       .on('finish', () => {
+        console.log('CSV formatting complete.')
         resolve('CSV formatting complete.')
       })
     data.forEach(item => {
@@ -37,22 +38,26 @@ const flattenObject = obj => {
   }
 }
 const flattenJSONs = async json_path => {
-  const files = await fs.readdir(json_path)
-  const dataArr = []
-  for (const file of files.filter(el => el.includes('.json'))) {
-    const data = await fs.readFile(path.join(json_path, file), 'utf-8')
-    const flattedObj = flattenObject(JSON.parse(data))
-    if (!flattedObj) {
-      continue
+  try {
+    const files = await fs.readdir(json_path)
+    const dataArr = []
+    for (const file of files.filter(el => el.includes('.json'))) {
+      const data = await fs.readFile(path.join(json_path, file), 'utf-8')
+      const flattedObj = flattenObject(JSON.parse(data))
+      if (!flattedObj) {
+        continue
+      }
+      if (Array.isArray(flattedObj)) {
+        dataArr.push(...flattedObj)
+      } else {
+        dataArr.push(flattedObj)
+      }
     }
-    if (Array.isArray(flattedObj)) {
-      dataArr.push(...flattedObj)
-    } else {
-      dataArr.push(flattedObj)
-    }
+    console.log('JSONs flattened to array')
+    return dataArr
+  } catch (err) {
+    console.error(`Error reading JSON files: ${err.message}`)
   }
-  console.log(dataArr)
-  return dataArr
 }
 
 export const saveJSONSToCSV = async (json_path, csv_path) => {
