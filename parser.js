@@ -38,11 +38,29 @@ const flattenObject = obj => {
   }
 }
 const flattenJSONs = async json_path => {
+  let files
   try {
-    const files = await fs.readdir(json_path)
-    const dataArr = []
-    for (const file of files.filter(el => el.includes('.json'))) {
-      const data = await fs.readFile(path.join(json_path, file), 'utf-8')
+    files = await fs.readdir(json_path)
+  } catch (err) {
+    console.error(
+      'Error reading files from folder:',
+      json_path,
+      `error: ${err.message}`
+    )
+  }
+  const dataArr = []
+  if (files.length === 0) {
+    console.log('No JSON files found with the path: ', json_path)
+    process.exit()
+  }
+  for (const file of files.filter(el => el.includes('.json'))) {
+    let data
+    try {
+      data = await fs.readFile(path.join(json_path, file), 'utf-8')
+    } catch (err) {
+      console.error('Error reading file: ', file, `Error: ${err.message}`)
+    }
+    try {
       const flattedObj = flattenObject(JSON.parse(data))
       if (!flattedObj) {
         continue
@@ -52,22 +70,15 @@ const flattenJSONs = async json_path => {
       } else {
         dataArr.push(flattedObj)
       }
+    } catch (err) {
+      console.error('Error flattening file: ', file, `Error: ${err.message}`)
     }
-    console.log('JSONs flattened to array')
-    return dataArr
-  } catch (err) {
-    console.error(`Error reading JSON files: ${err.message}`)
   }
+  console.log('JSONs flattened to array')
+  return dataArr
 }
 
 export const saveJSONSToCSV = async (json_path, csv_path) => {
   const dataArr = await flattenJSONs(json_path)
   await formatCsvData(dataArr, csv_path)
-}
-const args = process.argv.slice(2)
-if (args.length < 2) {
-  console.error(
-    "\x1b[31mPlease provide path to the JSONs folder and path to save the output CSV file\nEx: './data' './data.csv'\x1b[0m"
-  )
-  process.exit()
 }

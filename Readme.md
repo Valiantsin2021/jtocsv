@@ -33,6 +33,13 @@ Read all JSON files and save the parsed data to CSV file:
 jtocsv /path/to/jsons /path/to/output.csv
 ```
 
+Inline
+
+```bash
+import { saveJSONSToCSV } from 'jtocsv/parser.js'
+await saveJSONSToCSV('json_path', 'csv_path')
+```
+
 ### Contributing
 
 Contributions are welcome! 
