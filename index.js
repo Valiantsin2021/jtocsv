@@ -1,7 +1,6 @@
 //#!/usr/bin/env node
 
 import { saveJSONSToCSV } from './parser.js'
-export { saveJSONSToCSV } from './parser.js'
 const args = process.argv.slice(2)
 if (args.length < 2) {
   console.error(
