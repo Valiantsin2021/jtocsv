@@ -11,18 +11,5 @@
     "City": "Riverside",
     "Ext": "NJ",
     "CP": "8075"
-  },
-  {
-    "Name": "Jane",
-    "Last name": "Doe",
-    "Address": "120 jefferson st.",
-    "position": {
-      "lat": 37.7749,
-      "lng": -122.4194
-    },
-    "hobbies": ["running", "sky diving", "singing"],
-    "City": "Riverside",
-    "Ext": "NJ",
-    "CP": "8075"
   }
 ]

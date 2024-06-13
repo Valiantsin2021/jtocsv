@@ -9,5 +9,10 @@
   "hobbies": ["running", "sky diving", "singing"],
   "City": "Riverside",
   "Ext": "NJ",
-  "CP": "9065"
+  "CP": "9065",
+  "phone": "555-555-5555",
+  "age": 34,
+  "active": true,
+  "dsc": "description",
+  "key": "value"
 }

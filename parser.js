@@ -3,6 +3,7 @@ import csv from 'fast-csv'
 import { createWriteStream } from 'fs'
 import path from 'path'
 import { flatten } from 'flat'
+
 /**
  * Asynchronously formats CSV data and writes it to a file.
  *
@@ -40,7 +41,7 @@ export const formatCsvData = async (data, filePath) => {
  *                        the result is a flattened object. If the input is an array,
  *                        the result is an array of flattened objects.
  */
-export const flattenObject = (obj, opts) => {
+export const flattenObject = (obj, opts = {}) => {
   if (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) {
     return flatten(obj, opts)
   }
@@ -51,6 +52,46 @@ export const flattenObject = (obj, opts) => {
     })
     return arr
   }
+}
+
+/**
+ * Asynchronously finds the largest file in an array of files.
+ *
+ * @param {Array<string>} files - The array of file paths.
+ * @param {string} dir - The directory path.
+ * @return {Promise<string>} A Promise that resolves to the path of the largest
+ * file.
+ */
+export const findLargestFile = async (dir, files) => {
+  let largestFile = { name: '', size: 0 }
+
+  for (const file of files) {
+    const filePath = path.join(dir, file)
+    const stats = await fs.stat(filePath)
+
+    if (stats.size > largestFile.size) {
+      largestFile = { name: filePath, size: stats.size }
+    }
+  }
+  console.log('Largest JSON file:', largestFile.name)
+  return largestFile.name
+}
+
+/**
+ * Moves a specific string to the beginning of the array.
+ *
+ * @param {string[]} arr - The array of strings.
+ * @param {string} str - The string to move to the beginning.
+ * @returns {string[]} The modified array with the specified string at the beginning.
+ */
+function moveToBeginning(arr, str) {
+  const fileName = str.split('\\').at(-1)
+  const index = arr.indexOf(fileName)
+  if (index > -1) {
+    arr.splice(index, 1)
+    arr.unshift(fileName)
+  }
+  return arr
 }
 
 /**
@@ -73,11 +114,15 @@ export const flattenJSONs = async json_path => {
     )
   }
   const dataArr = []
-  if (files.length === 0) {
+  let jsonFiles = files.filter(el => el.toLowerCase().includes('.json'))
+  if (jsonFiles.length === 0) {
     console.log('No JSON files found with the path: ', json_path)
     process.exit()
   }
-  for (const file of files.filter(el => el.includes('.json'))) {
+  const largest = await findLargestFile(json_path, jsonFiles)
+  jsonFiles = moveToBeginning(jsonFiles, largest)
+  console.log(jsonFiles)
+  for (const file of jsonFiles) {
     let data
     try {
       data = await fs.readFile(path.join(json_path, file), 'utf-8')
@@ -101,6 +146,7 @@ export const flattenJSONs = async json_path => {
   console.log('JSONs flattened to array')
   return dataArr
 }
+
 /**
  * Asynchronously saves JSONs data from a given path to a CSV file at a specified path.
  *
