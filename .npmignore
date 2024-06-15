@@ -3,5 +3,5 @@ data
 .prettierrc.json
 .prettierignore
 .eslintignore
-.eslintrx.json
+.eslintrc.json
 .gitignore
