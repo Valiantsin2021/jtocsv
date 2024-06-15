@@ -1,19 +1,20 @@
-import fs from 'fs/promises'
 import csv from 'fast-csv'
-import { createWriteStream } from 'fs'
-import path from 'path'
 import { flatten } from 'flat'
+import { createWriteStream } from 'fs'
+import fs from 'fs/promises'
+import path from 'path'
 
 /**
  * Asynchronously formats CSV data and writes it to a file.
  *
  * @param {Array} data - The array of data to be formatted.
  * @param {string} filePath - The file path where the CSV will be written.
+ * @param {Array} headers - The array of headers for the CSV.
  * @returns {Promise} A promise that resolves when the CSV formatting is complete.
  */
-export const formatCsvData = async (data, filePath) => {
+export const formatCsvData = async (data, filePath, headers) => {
   return new Promise((resolve, reject) => {
-    const csvStream = csv.format({ headers: true })
+    const csvStream = csv.format({ headers: headers })
     const writeStream = createWriteStream(filePath)
     csvStream
       .pipe(writeStream)
@@ -55,46 +56,6 @@ export const flattenObject = (obj, opts = {}) => {
 }
 
 /**
- * Asynchronously finds the largest file in an array of files.
- *
- * @param {Array<string>} files - The array of file paths.
- * @param {string} dir - The directory path.
- * @return {Promise<string>} A Promise that resolves to the path of the largest
- * file.
- */
-export const findLargestFile = async (dir, files) => {
-  let largestFile = { name: '', size: 0 }
-
-  for (const file of files) {
-    const filePath = path.join(dir, file)
-    const stats = await fs.stat(filePath)
-
-    if (stats.size > largestFile.size) {
-      largestFile = { name: filePath, size: stats.size }
-    }
-  }
-  console.log('Largest JSON file:', largestFile.name)
-  return largestFile.name
-}
-
-/**
- * Moves a specific string to the beginning of the array.
- *
- * @param {string[]} arr - The array of strings.
- * @param {string} str - The string to move to the beginning.
- * @returns {string[]} The modified array with the specified string at the beginning.
- */
-function moveToBeginning(arr, str) {
-  const fileName = str.split('\\').at(-1)
-  const index = arr.indexOf(fileName)
-  if (index > -1) {
-    arr.splice(index, 1)
-    arr.unshift(fileName)
-  }
-  return arr
-}
-
-/**
  * Asynchronously reads all JSON files from a given path and returns an array of
  * flattened objects.
  *
@@ -104,6 +65,7 @@ function moveToBeginning(arr, str) {
  */
 export const flattenJSONs = async json_path => {
   let files
+  const headers = []
   try {
     files = await fs.readdir(json_path)
   } catch (err) {
@@ -114,14 +76,11 @@ export const flattenJSONs = async json_path => {
     )
   }
   const dataArr = []
-  let jsonFiles = files.filter(el => el.toLowerCase().includes('.json'))
+  const jsonFiles = files.filter(el => el.toLowerCase().includes('.json'))
   if (jsonFiles.length === 0) {
     console.log('No JSON files found with the path: ', json_path)
     process.exit()
   }
-  const largest = await findLargestFile(json_path, jsonFiles)
-  jsonFiles = moveToBeginning(jsonFiles, largest)
-  console.log(jsonFiles)
   for (const file of jsonFiles) {
     let data
     try {
@@ -135,16 +94,19 @@ export const flattenJSONs = async json_path => {
         continue
       }
       if (Array.isArray(flattedObj)) {
+        flattedObj.forEach(item => {
+          headers.push(...Object.keys(item))
+        })
         dataArr.push(...flattedObj)
       } else {
+        headers.push(...Object.keys(flattedObj))
         dataArr.push(flattedObj)
       }
     } catch (err) {
       console.error('Error flattening file: ', file, `Error: ${err.message}`)
     }
   }
-  console.log('JSONs flattened to array')
-  return dataArr
+  return [dataArr, [...new Set(headers)]]
 }
 
 /**
@@ -155,6 +117,6 @@ export const flattenJSONs = async json_path => {
  * @return {Promise<void>} A Promise that resolves when the JSON data has been saved to the CSV file.
  */
 export const saveJSONSToCSV = async (json_path, csv_path) => {
-  const dataArr = await flattenJSONs(json_path)
-  await formatCsvData(dataArr, csv_path)
+  let [dataArr, headers] = await flattenJSONs(json_path)
+  await formatCsvData(dataArr, csv_path, headers)
 }

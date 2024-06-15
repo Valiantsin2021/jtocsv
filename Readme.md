@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Valiantsin2021/jtocsv/actions/workflows/ci.yml/badge.svg)](https://github.com/Valiantsin2021/jtocsv/actions/workflows/ci.yml)
 
-Jtocsv is an npm package that reads the JSON files from a folder path, parses and flattens the data and combines the data in the output CSV file. It provides flexibility through command-line arguments.
+Jtocsv is an npm package that reads the JSON files from a folder path, parses and flattens the data and combines the data in the output CSV file. It provides flexibility through command-line arguments. CSV headers are formed on flattened JSONs keys.
 
 ## Installation
 

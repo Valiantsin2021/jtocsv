@@ -1,1 +1,7 @@
 data
+.github
+.prettierrc.json
+.prettierignore
+.eslintignore
+.eslintrx.json
+.gitignore
