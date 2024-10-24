@@ -1,6 +1,6 @@
 {
   "name": "jtocsv",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A small library that will read all the JSON files from the folder, flatten them, and convert them to CSV file",
   "main": "index.js",
   "type": "module",
@@ -37,7 +37,7 @@
   "author": "Valentin Lutchanka",
   "license": "Apache-2.0",
   "dependencies": {
-    "fast-csv": "^5.0.1",
+    "fast-csv": "^5.0.2",
     "flat": "^6.0.1"
   },
   "repository": {
